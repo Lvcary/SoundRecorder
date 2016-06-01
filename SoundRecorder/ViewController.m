@@ -94,9 +94,9 @@
     [self.avPlayer play];
     
     ///  设置定时检测
-//    _timer = [NSTimer scheduledTimerWithTimeInterval:0 target:self
-//                                            selector:@selector(playVoice) userInfo:nil
-//                                             repeats:YES];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:0 target:self
+                                            selector:@selector(playVoice) userInfo:nil
+                                             repeats:YES];
     
 }
 
@@ -182,11 +182,8 @@
     // 刷新音量数据
     [_avPlayer updateMeters];
 
-    float peak = [_avPlayer averagePowerForChannel:0];
-    
-    double lowPassResults = fabs((double)peak)/160.0;
-    NSLog(@"peak = %f,lowPassResults = %f",peak,lowPassResults);
-    [self setVolumeImageWithLowPassResult:lowPassResults];
+    float peakPower = pow(10, (0.05 * [_avPlayer peakPowerForChannel:0]));
+    [self setVolumeImageWithLowPassResult:peakPower];
     
 }
 
